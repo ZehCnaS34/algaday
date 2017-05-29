@@ -5,4 +5,6 @@ Just a little personal repo of algorithms written in different languages.
 ## Language Checklist
 
 - Julia
-  - A*
+  - A\*
+  - Dijkstra's Shortest Path
+  - Bubble Short
