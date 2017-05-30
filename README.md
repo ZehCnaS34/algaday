@@ -6,5 +6,5 @@ Just a little personal repo of algorithms written in different languages.
 
 - Julia
   - A\*
-  - Dijkstra's Shortest Path
   - Bubble Short
+  - Dijkstra's Shortest Path
