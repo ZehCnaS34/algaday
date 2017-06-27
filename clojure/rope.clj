@@ -116,7 +116,7 @@
 
       ;; if children are available, push to stack
       (or (not (nil? (:left (peek fringe))))
-          (not (nil? (:right(peek fringe)))))
+          (not (nil? (:right (peek fringe)))))
       (recur (cond-> fringe
                  ;; always pop
                  true 
