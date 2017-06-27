@@ -35,21 +35,51 @@
     (>  idx (:weight node)) (rope-index (:right node) (- idx (:weight node)))
     :default (throw "Error")))
 
+(defn rope-concat 
+  ([])
+  ([left] (println left) left)
+  ([left right]
+   {:weight (rope-get-total-weight left)
+    :left left
+    :right right}))
+
+(defn leaf-split [leaf idx]
+  (let [c (:content leaf)
+        left (subs c 0 idx)
+        right (subs c idx)]
+    [{:weight (count left) :content left}
+     {:weight (count right) :content right}]))
+
+
 (defn rope-split [root idx]
   (loop [new-root root
          current-node root
          idx idx
          path []
-         trees []]
+         trees '()]
     (cond
-      (or 
+      (and
+        (< idx (:weight current-node))
         (is-leaf current-node))
-      [(rope-concat 
-         (:left new-root)
-         (:right new-root))
-       (->> trees 
-         (filter (complement nil?))
-         (reduce rope-concat))]
+      (let [[ll rl] (leaf-split current-node idx)]
+        [(->> [(:left new-root) (:right new-root) ll]
+           (filter (complement nil?))
+           (reduce rope-concat))
+         (as-> trees v
+           (conj v rl)
+           (filter (complement nil?) v)
+           (reduce rope-concat v))])
+
+      (is-leaf current-node)
+      (do
+        (pprint current-node)
+        (pprint idx)
+        [(rope-concat 
+           (:left new-root)
+           (:right new-root))
+         (->> trees 
+              (filter (complement nil?))
+              (reduce rope-concat))])
 
       ;; if idx is more than the weight, go right, and add to path
       (> idx (:weight current-node)) 
@@ -86,10 +116,16 @@
 
       ;; if children are available, push to stack
       (or (not (nil? (:left (peek fringe))))
-          (not (nil? (:right(peek fringe)))) )
-      (recur (-> fringe
+          (not (nil? (:right(peek fringe)))))
+      (recur (cond-> fringe
+                 ;; always pop
+                 true 
                  (pop)
+
+                 (-> (peek fringe) :right nil? not)
                  (conj (:right (peek fringe)))
+
+                 (-> (peek fringe) :left nil? not)
                  (conj (:left (peek fringe)))
                  )
              string-builder)
@@ -105,18 +141,10 @@
           :content string}]
     (reduce rope-concat [left new-node right])))
 
-(defn rope-concat 
-  ([] nil)
-  ([left] left)
-  ([left right]
-   {:weight (rope-get-total-weight left)
-    :left left
-    :right right}))
-
 (-> sample-rope
-    (rope-insert 0 "alex ")
-    (rope-insert 0 "alex ")
-    rope-report)
+    (rope-split 2)
+    first
+    )
 
 ; (rope-index
 ;   sample-rope
