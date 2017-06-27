@@ -1,4 +1,3 @@
-
 (def node {:weight nil :left nil :right nil})
 (def leaf {:weight nil :content nil})
 (def root {:weight 0 :content ""})
@@ -18,6 +17,7 @@
                           :right {:weight 6 :content " Simon"}}}}
    :right nil})
 
+(-> sample-rope pprint)
 (defn is-leaf [node] (if (:content node) true false))
 
 (defn rope-get-total-weight [root]
@@ -122,6 +122,7 @@
                  true 
                  (pop)
 
+                 ;; Something
                  (-> (peek fringe) :right nil? not)
                  (conj (:right (peek fringe)))
 
@@ -129,7 +130,7 @@
                  (conj (:left (peek fringe)))
                  )
              string-builder)
-      
+
       ;; probably nil
       :default
       (recur (pop fringe) string-builder)
@@ -145,8 +146,3 @@
     (rope-split 2)
     first
     )
-
-; (rope-index
-;   sample-rope
-;   x)
-
