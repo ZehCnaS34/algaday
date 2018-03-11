@@ -8,3 +8,10 @@ Just a little personal repo of algorithms written in different languages.
   - A\*
   - Bubble Short
   - Dijkstra's Shortest Path
+  - merge sort
+  - quick sort
+- Clojure
+  - Rope
+- JavaScript
+  - Bubble sort.
+- C++
