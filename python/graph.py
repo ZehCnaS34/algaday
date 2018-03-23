@@ -1,6 +1,7 @@
 from pprint import pprint
 from random import randrange
 
+xrange = range
 
 class Inf(int):
     def __str__(self):
@@ -44,25 +45,44 @@ class AdjacencyMatrix:
 def breadth_first_search(graph, start):
     size = graph.size
     graph = graph
-    queue = [(start, 0)]
+    queue = [(None, start, 0)]
     visited = [False for _ in xrange(graph.size)]
+    visited[start] = True
     while len(queue) > 0:
-        current, w = queue.pop(0)
-        visited[current] = True
+        prev, current, w = queue.pop(0)
 
         for child in xrange(size):
             weight = graph._data[current][child]
             if weight != INF and not visited[child]:
-                queue.append((child, weight))
+                visited[child] = True
+                queue.append((current, child, weight))
 
-        yield current, w
+        yield prev, current, w
+
+
+def make_edge(am, s, d, w):
+    am.edge(d, s, w)
+    am.edge(s, d, w)
 
 
 if __name__ == '__main__':
-    am = AdjacencyMatrix(5)
+    am = AdjacencyMatrix(10)
+
+
+    make_edge(am, 0, 1, 1)
+    make_edge(am, 1, 2, 2)
+    make_edge(am, 2, 3, 1)
+    make_edge(am, 2, 6, 2)
+    make_edge(am, 2, 5, 5)
+    make_edge(am, 3, 5, 3)
+    make_edge(am, 3, 4, 3)
+    make_edge(am, 3, 7, 7)
+    make_edge(am, 6, 7, 1)
+    make_edge(am, 6, 9, 0)
+    make_edge(am, 7, 9, 1)
+    make_edge(am, 9, 8, 1)
 
     pprint(am._data)
-    am.edge(0, 3, 4)
 
     for node in breadth_first_search(am, 0):
-        pass
+        print(node)
