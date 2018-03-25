@@ -17,3 +17,9 @@ function bubblesort(lst)
     end
   end
 end
+
+lst = rand(10)
+println(lst)
+bubblesort(lst)
+println(lst)
+

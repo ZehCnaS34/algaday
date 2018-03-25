@@ -3,17 +3,17 @@ Min Heap
 """
 import math
 
-class MinHeap:
+class HeapMap:
     def __init__(self):
         self.size = 0
-        self.cursor = -1
         self.data = [None for _ in range(5)]
-        self._resize()
+        self._map = {}
+        self._ensure_space()
 
     def __str__(self):
         return "%s:%s" % (self.size, self.data)
 
-    def _resize(self):
+    def _ensure_space(self):
         if self.size >= len(self.data):
             self.data += [None for _ in range(self.size)]
 
@@ -45,34 +45,34 @@ class MinHeap:
     def right_child(self, x):
         return self.data[self.rightI(x)]
 
-    def insert(self, value):
-        self.cursor += 1
+    def add(self, key, value):
         self.size += 1
-        self._resize()
-        self.data[self.cursor] = value
+        self._ensure_space()
+        self.data[self.size-1] = (key, value)
         return self.up()
 
-    def poll(self):
+    def contains(self, key):
+        return key in self._map
+
+    def extract_min(self):
         assert self.size != 0
         item = self.data[0]
         self.data[0] = self.data[self.cursor]
         self.data[self.cursor] = None
         self.size -= 1
-        self.cursor -= 1
         self.down()
         return item
 
 
     def swap(self, x, y):
         self.data[x], self.data[y] = self.data[y], self.data[x]
+        self.map[self.data[x][0]] = x
+        self.map[self.data[y][0]] = y
 
     def up(self):
         cursor = self.cursor
         while self.hasParent(cursor) and self.data[cursor] < self.parent(cursor):
-            self.data[self.parentI(cursor)], self.data[cursor] = (
-                self.data[cursor],
-                self.data[self.parentI(cursor)]
-            )
+            self.swap(self.parentI(cursor), cursor)
             cursor = self.parentI(cursor)
 
     def down(self):
@@ -89,20 +89,12 @@ class MinHeap:
                 self.swap(smaller_child, cursor)
                 cursor = smaller_child
 
-def heap_sort(arr):
-    output = []
-    h = MinHeap()
-    for e in arr:
-        h.insert(e)
+    def contains(self):
+        pass
 
-    while h.size > 0:
-        output.append(h.poll())
+    def decrease(self):
+        pass
 
-    return output
 
 if __name__ == '__main__':
-    import random
-    i = [random.randrange(0, 100) for _ in range(20)]
-    o = heap_sort(i)
-    print(i)
-    print(o)
+    hm = HeapMap()
