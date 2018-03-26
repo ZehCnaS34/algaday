@@ -4,6 +4,13 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "a*",
+            "type": "shell",
+            "command": "python2 python/astar.py",
+            "problemMatcher": [],
+            "isBackground": true
+        },
+        {
             "label": "dijkstra",
             "type": "shell",
             "command": "python2 python/dijkstra.py",

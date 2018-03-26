@@ -1,6 +1,7 @@
 from pprint import pprint
 import string
 from random import randrange
+import math
 
 xrange = range
 
@@ -26,6 +27,9 @@ class Inf(int):
 INF = Inf()
 
 
+def dist(p1, p2):
+    return math.sqrt((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)
+
 def square_matrix(n, value):
     return [
         [
@@ -38,6 +42,7 @@ class AdjacencyMatrix:
     def __init__(self, node_count):
         self.size = node_count
         self._data = square_matrix(node_count, INF)
+        self._nodes = []
 
     def __len__(self):
         return self.size
@@ -48,8 +53,18 @@ class AdjacencyMatrix:
     def __str__(self):
         return "%s" % self._data
 
-    def edge(self, source, dest, weight):
+    def edge(self, source, dest, weight=None):
+        if weight is None:
+            n1 = self._nodes[source]
+            n2 = self._nodes[dest]
+            weight = dist(n1, n2)
+
         self._data[source][dest] = weight
+
+    def node(self, node):
+        """insert nodes in order. a=0, b=2, ..."""
+        self._nodes.append(node)
+
 
 
 def breadth_first(graph, start):
@@ -70,7 +85,7 @@ def breadth_first(graph, start):
         yield prev, current, w
 
 
-def make_edge(am, s, d, w):
+def make_edge(am, s, d, w=None):
     am.edge(d, s, w)
     am.edge(s, d, w)
 
