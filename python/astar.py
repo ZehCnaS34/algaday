@@ -40,10 +40,12 @@ def create_matrix():
     return am
 
 
-def astar(am, source):
+def astar(am, source, dest):
     print am
     node_parent = {source: None}
-    node_distance = {source: 0}
+    # first, distance from parent
+    # second, distance from dest.
+    node_distance = {source: (0, 0)}
     heap_map = HeapMap()
 
     for node in range(len(am)):
@@ -65,8 +67,6 @@ def astar(am, source):
             if total_distance < heap_map[child]:
                 node_parent[child] = parent
                 heap_map.decrease(child, total_distance)
-            else:
-                print total_distance, heap_map[child]
 
     return node_parent, node_distance
 
@@ -74,7 +74,7 @@ def astar(am, source):
 if __name__ == '__main__':
     m = create_matrix()
 
-    np, nd = astar(m, 0)
+    np, nd = astar(m, 0, 9)
 
     print "path"
     for n in np:
