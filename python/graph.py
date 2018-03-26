@@ -1,4 +1,5 @@
 from pprint import pprint
+import string
 from random import randrange
 
 xrange = range
@@ -38,11 +39,20 @@ class AdjacencyMatrix:
         self.size = node_count
         self._data = square_matrix(node_count, INF)
 
+    def __len__(self):
+        return self.size
+
+    def __getitem__(self, key):
+        return self._data[key]
+
+    def __str__(self):
+        return "%s" % self._data
+
     def edge(self, source, dest, weight):
         self._data[source][dest] = weight
 
 
-def breadth_first_search(graph, start):
+def breadth_first(graph, start):
     size = graph.size
     graph = graph
     queue = [(None, start, 0)]
@@ -84,5 +94,5 @@ if __name__ == '__main__':
 
     pprint(am._data)
 
-    for node in breadth_first_search(am, 0):
+    for node in breadth_first(am, 0):
         print(node)

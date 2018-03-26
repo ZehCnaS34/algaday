@@ -1,27 +1,66 @@
-from graph import AdjacencyMatrix, breadth_first_search
+from graph import AdjacencyMatrix, breadth_first, make_edge, INF
+from pprint import pprint
 # from heap import MinHeap
+from heapmap import HeapMap
+
+from string import ascii_lowercase
 
 def create_matrix():
-    am = AdjacencyMatrix(10)
+    am = AdjacencyMatrix(6)
 
-    make_edge(am, 0, 1, 1)
+    make_edge(am, 0, 1, 5)
+    make_edge(am, 0, 3, 9)
+    make_edge(am, 0, 4, 2)
+
     make_edge(am, 1, 2, 2)
-    make_edge(am, 2, 3, 1)
-    make_edge(am, 2, 6, 2)
-    make_edge(am, 2, 5, 5)
-    make_edge(am, 3, 5, 3)
-    make_edge(am, 3, 4, 3)
-    make_edge(am, 3, 7, 7)
-    make_edge(am, 6, 7, 1)
-    make_edge(am, 6, 9, 0)
-    make_edge(am, 7, 9, 1)
-    make_edge(am, 9, 8, 1)
+
+    make_edge(am, 2, 3, 3)
+
+    make_edge(am, 4, 5, 3)
+    
+    make_edge(am, 5, 3, 2)
+
+    return am
 
 
-def dijkstra(am, source, dest):
-    l = len(am)
-    paths = {}
+def dijkstra(am, source):
+    node_parent = { source: None }
+    node_distance = { source: 0}
+    heap_map = HeapMap()
+    for node in range(len(am)):
+        heap_map.add(node, INF)
+    
+    heap_map.decrease(source, 0)
 
-    q = [source]
 
+    while heap_map:
+        print heap_map
+        parent, dist = heap_map.extract_min()
+        node_distance[parent] = dist
+        
+        for child in xrange(len(am)):
+            distance = am[parent][child]
+            if distance == INF or not heap_map.contains(child):
+                continue
 
+            total_distance = distance + node_distance[parent]
+            if total_distance < heap_map[child]:
+                node_parent[child] = parent
+                heap_map.decrease(child, total_distance)
+
+            
+    return node_parent, node_distance
+    
+if __name__ == '__main__':
+    m = create_matrix()
+
+    np, nd = dijkstra(m, 0)
+
+    print "path"
+    for n in np:
+        p = ascii_lowercase[np[n]] if np[n] is not None else None
+        print(ascii_lowercase[n], p)
+
+    print "distance"
+    for n in nd:
+        print(ascii_lowercase[n], nd[n])
