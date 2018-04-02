@@ -75,6 +75,7 @@ class HeapMap:
         item = self._data[0]
         del self._map[item[0]]
         self._data[0] = self._data[self.size - 1]
+        self._map[self._data[0][0]] = 0
         self._data[self.size - 1] = None
         self.size -= 1
         self.down()

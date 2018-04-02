@@ -1,4 +1,5 @@
 
+import graph
 from graph import AdjacencyMatrix, breadth_first, make_edge, INF
 from pprint import pprint
 # from heap import MinHeap
@@ -41,11 +42,10 @@ def create_matrix():
 
 
 def astar(am, source, dest):
-    print am
     node_parent = {source: None}
     # first, distance from parent
     # second, distance from dest.
-    node_distance = {source: (0, 0)}
+    node_distance = {source: 0}
     heap_map = HeapMap()
 
     for node in range(len(am)):
@@ -54,19 +54,22 @@ def astar(am, source, dest):
     heap_map.decrease(source, 0)
 
     while heap_map:
-        print heap_map
-        parent, dist = heap_map.extract_min()
-        node_distance[parent] = dist
+        current, _ = heap_map.extract_min()
+        node_distance[current] = node_distance[current]
 
         for child in xrange(len(am)):
-            distance = am[parent][child]
+            distance = am[current][child]
+
             if distance == INF or not heap_map.contains(child):
                 continue
 
-            total_distance = distance + node_distance[parent]
-            if total_distance < heap_map[child]:
-                node_parent[child] = parent
-                heap_map.decrease(child, total_distance)
+            total_distance = distance + node_distance[current]
+            heuristic_distance = total_distance + graph.dist(am(child), am(dest))
+            if heap_map[child][1] > heuristic_distance:
+                node_parent[child] = current
+                node_distance[child] = total_distance
+                heap_map.decrease(child, heuristic_distance)
+                print heap_map
 
     return node_parent, node_distance
 

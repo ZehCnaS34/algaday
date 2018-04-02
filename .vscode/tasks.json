@@ -18,6 +18,20 @@
             "isBackground": true
         },
         {
+            "label": "py:quick",
+            "type": "shell",
+            "command": "python2 python/quicksort.py",
+            "problemMatcher": [],
+            "isBackground": true
+        },
+        {
+            "label": "py:merge",
+            "type": "shell",
+            "command": "python2 python/mergesort.py",
+            "problemMatcher": [],
+            "isBackground": true
+        },
+        {
             "label": "heapmap",
             "type": "shell",
             "command": "python2 python/heapmap.py",

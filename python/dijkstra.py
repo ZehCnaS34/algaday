@@ -35,17 +35,18 @@ def dijkstra(am, source):
 
     while heap_map:
         print heap_map
-        parent, dist = heap_map.extract_min()
-        node_distance[parent] = dist
+        current, dist = heap_map.extract_min()
+        print current, dist
+        node_distance[current] = dist
         
         for child in xrange(len(am)):
-            distance = am[parent][child]
+            distance = am[current][child]
             if distance == INF or not heap_map.contains(child):
                 continue
 
-            total_distance = distance + node_distance[parent]
+            total_distance = distance + node_distance[current]
             if total_distance < heap_map[child]:
-                node_parent[child] = parent
+                node_parent[child] = current
                 heap_map.decrease(child, total_distance)
 
             

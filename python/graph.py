@@ -24,7 +24,7 @@ class Inf(int):
     def __ne__(self, other):
         return type(self) != type(other)
 
-INF = Inf()
+INF = float('inf')
 
 
 def dist(p1, p2):
@@ -49,6 +49,9 @@ class AdjacencyMatrix:
 
     def __getitem__(self, key):
         return self._data[key]
+
+    def __call__(self, key):
+        return self._nodes[key]
 
     def __str__(self):
         return "%s" % self._data
