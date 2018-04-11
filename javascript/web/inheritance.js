@@ -25,7 +25,7 @@ function inherits(ctr, superCtr) {
       value: superCtr,
       enumerable: false,
       writable: true,
-      configurable : true
+      configurable: true
     }
   })
 }
@@ -44,15 +44,12 @@ function Person(name) {
   this.sex = 'male';
 }
 
-inherit(Person, Organism);
+inherits(Person, Organism);
 
 Person.prototype.mate = function (person) {
   if (person.sex != this.sex) {
-    let babyName = this.name.substr(
-      0, this.name.length / 2
-    ) + person.name.substr(
-      0, person.name.length / 2
-    );
+    let babyName = this.name.substr(0, this.name.length / 2) +
+      person.name.substr(0, person.name.length / 2);
     return new Person(babyName);
   }
 }

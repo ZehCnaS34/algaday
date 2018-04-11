@@ -1,7 +1,7 @@
 function sampleRequest() {
    let xhr = new XMLHttpRequest();
    xhr.open("GET", "./XHRRequest.js", true);
-   
+
    /**
     * 0 = unset
     * 1 = opened
@@ -12,9 +12,10 @@ function sampleRequest() {
    xhr.onreadystatechange = function () {
        console.log(xhr.readyState);
        console.log(xhr.responseText);
-       if (xhr.readyState == 4) {
-           document.write(xhr.responseText);
-       }
+    //    if (xhr.readyState == 4) {
+    //        const mountNode = document.querySelector('#xhr > div');
+    //        mountNode.innerText = xhr.responseText
+    //    }
    }
 
    xhr.send();
