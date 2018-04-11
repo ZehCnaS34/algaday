@@ -1,5 +1,6 @@
 const { shuffle } = require('./util');
 
+
 function merge(l1, l2) {
     let output = [];
     let c1 = 0, c2 = 0;

@@ -10,13 +10,13 @@ def merge(a, b):
         else:
             result.append(b[0])
             b = b[1:]
-        
+
     if a:
         result = result + a
-    
+
     if b:
         result = result + b
-    
+
     return result
 
 
@@ -43,7 +43,7 @@ if __name__ == '__main__':
 
     print a
     print merge_sort(a)
-    
+
 
 
 

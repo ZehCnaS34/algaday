@@ -1,10 +1,12 @@
 const { shuffle } = require('./util');
 
+
 function swap(lst, i, j) {
     let tmp = lst[i];
     lst[i] = lst[j];
     lst[j] = tmp;
 }
+
 
 function partition(lst, lo, hi) {
     const p = lst[hi];
@@ -30,8 +32,10 @@ function quicksort(lst, lo, hi) {
     }
 }
 
+
 const a = shuffle(new Array(20).fill().map((_, i) => i));
 console.log(a);
+
 
 quicksort(a, 0, a.length - 1);
 console.log(a);
